@@ -1,0 +1,10 @@
+---
+- include_role:
+    name: webserver
+    tasks_from: build_server
+  loop: "{{ greet_names | unique}}"
+  vars:
+    student_name: "{{ item }}"
+    name_svc: "{{ item | lower }}"
+  loop_control:
+    index_var: loop_idx

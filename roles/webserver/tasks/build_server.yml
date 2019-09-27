@@ -1,0 +1,64 @@
+---
+- name: "Create temporary build dir for {{ student_name }}"
+  tempfile:
+    state: directory
+    suffix: .build
+  register: build_dir
+
+- name: "Create content subdirectory for {{ student_name }}"
+  file:
+    state: directory
+    path: "{{build_dir.path}}/content"
+
+- name: "Render page template for {{ student_name }}"
+  template:
+    dest: "{{build_dir.path}}/content/index.html"
+    src: templates/index.html.j2
+
+- name: "Place static file for {{ student_name }}"
+  copy:
+    dest: "{{build_dir.path}}/content"
+    src: files/logo.svg
+
+- name: "render Dockerfile for {{ student_name }}"
+  template:
+    dest: "{{build_dir.path}}/Dockerfile"
+    src: templates/Dockerfile.j2
+
+- name: "Build image for {{ student_name }}"
+  docker_image:
+    build:
+      dockerfile: "{{build_dir.path}}/Dockerfile"
+      path: "{{build_dir.path}}"
+      pull: yes
+    force_source: yes
+    name: "img-{{ name_svc }}"
+    source: build
+    state: present
+
+- name: "Start container for {{ student_name }}"
+  docker_container:
+    auto_remove: yes
+    detach: yes
+    image: "img-{{ name_svc }}:latest"
+    name: "web-{{ name_svc }}"
+    state: started
+    recreate: yes
+  register: container_info
+
+- name: "Ensure /etc/hosts has no old record for {{ student_name }}"
+  lineinfile:
+    state: absent
+    regexp: '^.* web-{{ name_svc }}$'
+    path: /etc/hosts
+
+- name: "Update /etc/hosts for {{ student_name }}"
+  lineinfile:
+    insertafter: EOF
+    line: "{{container_info['ansible_facts']['docker_container']['NetworkSettings']['IPAddress'] }} web-{{ name_svc }}"
+    path: /etc/hosts
+
+- name: "Cleanup build dir for {{ student_name }}"
+  file:
+    state: absent
+    path: "{{build_dir.path}}"
