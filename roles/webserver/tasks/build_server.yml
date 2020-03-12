@@ -18,11 +18,13 @@
 - name: "Place static files for {{ student_name }}"
   copy:
     dest: "{{build_dir.path}}/content"
-    src: "{{ item }}"
+    src: "{{ static_file }}"
   loop:
     - files/logo.svg
     - files/app.js
     - files/keymaster.min.js
+  loop_control:
+    loop_var: static_file
 
 - name: "render Dockerfile for {{ student_name }}"
   template:
