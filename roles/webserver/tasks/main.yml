@@ -5,6 +5,6 @@
   loop: "{{ greet_names | unique}}"
   vars:
     student_name: "{{ item }}"
-    name_svc: "{{ item | lower }}"
+    name_svc: "{{ item | lower | regex_replace(' ', '-') }}"
   loop_control:
     index_var: loop_idx
