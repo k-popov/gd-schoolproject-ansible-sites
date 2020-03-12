@@ -21,8 +21,8 @@
     src: item
   loop:
     - files/logo.svg
-    - app.js
-    - keymaster.min.js
+    - files/app.js
+    - files/keymaster.min.js
 
 - name: "render Dockerfile for {{ student_name }}"
   template:
