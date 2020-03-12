@@ -2,6 +2,8 @@
 This playbook allows to generate several locally available sites that would greet specific person by name.
 Generated web-sites will be available by name in format `web-<name>` (entries added to `/etc/hosts`)
 
+Built-in game is copied from https://github.com/wolverdude/asteroids
+
 # Use
 ## Prerequirements
 The following needs to be installed and configured:
