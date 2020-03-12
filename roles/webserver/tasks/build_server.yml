@@ -18,7 +18,7 @@
 - name: "Place static files for {{ student_name }}"
   copy:
     dest: "{{build_dir.path}}/content"
-    src: item
+    src: "{{ item }}"
   loop:
     - files/logo.svg
     - files/app.js
