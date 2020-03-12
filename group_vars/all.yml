@@ -1,4 +1,2 @@
 ---
-greet_names:
-  - Sid
-  - Nancy
+greet_names: "Sid;Nancy"

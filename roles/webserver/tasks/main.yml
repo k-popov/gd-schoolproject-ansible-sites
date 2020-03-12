@@ -2,7 +2,7 @@
 - include_role:
     name: webserver
     tasks_from: build_server
-  loop: "{{ greet_names | unique}}"
+  loop: "{{ greet_names.split(';') | unique}}"
   vars:
     student_name: "{{ item }}"
     name_svc: "{{ item | lower | regex_replace(' ', '-') }}"
