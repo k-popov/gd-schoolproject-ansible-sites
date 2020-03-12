@@ -15,10 +15,14 @@
     dest: "{{build_dir.path}}/content/index.html"
     src: templates/index.html.j2
 
-- name: "Place static file for {{ student_name }}"
+- name: "Place static files for {{ student_name }}"
   copy:
     dest: "{{build_dir.path}}/content"
-    src: files/logo.svg
+    src: item
+  loop:
+    - files/logo.svg
+    - app.js
+    - keymaster.min.js
 
 - name: "render Dockerfile for {{ student_name }}"
   template:
