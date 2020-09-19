@@ -26,7 +26,7 @@
     ```
 6. Run your site with the following command:
     ```bash
-    sudo docker run --rm -p 8080:80 -v $HOME/localwebsite:/usr/share/nginx/html:ro nginx
+    sudo docker run --rm -p 8000:80 -v $HOME/localwebsite:/usr/share/nginx/html:ro nginx
     ```
 7. Run web-browser and go to http://localhost:8080/
 8. Interminal window press `Ctrl+C` to stop local web server.
